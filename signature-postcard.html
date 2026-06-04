@@ -106,7 +106,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
   box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
 .btn-sub:hover { background:rgba(255,255,255,.85); border-color:rgba(0,0,0,.15); box-shadow:0 4px 12px rgba(0,0,0,.06); transform:translateY(-1px); }
-.btn-sub:disabled { opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-sub:disabled { opacity:1; cursor:not-allowed; transform:none; box-shadow:none; }
 
 /* ============================================================
    右侧卡片区
@@ -141,7 +141,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 }
 
 /* 照片背景 */
-.bg-front { position:absolute; inset:0; z-index:0; object-fit:cover; opacity:.35; border-radius:10px; pointer-events:none; }
+.bg-front { position:absolute; inset:0; z-index:0; object-fit:cover; opacity:1; border-radius:10px; pointer-events:none; }
+  .photo-overlay { position:absolute; inset:0; z-index:1; border-radius:10px; pointer-events:none; background:linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.20) 100%); }
 .bg-back  { position:absolute; inset:0; z-index:0; object-fit:cover; opacity:.35; border-radius:10px; pointer-events:none; }
 
 /* 内部层级 */
@@ -164,15 +165,15 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
 /* 印章 */
 .class-stamp { display:inline-block; color:#b45309; border:2.5px solid #b45309;
-  padding:6px 18px; font-weight:700; letter-spacing:.28em; opacity:.82; border-radius:5px;
-  text-shadow:1px 1px 0 rgba(255,255,255,.5); background:rgba(255,255,255,.2); }
+  padding:6px 18px; font-weight:700; letter-spacing:.28em; opacity:.9; border-radius:5px;
+  text-shadow:0 0 8px rgba(255,255,255,.9), 0 0 3px rgba(255,255,255,.95); background:rgba(255,255,255,.3); }
 
 /* 背面书写线 */
-.write-line { width:82%; height:1px; background:#333; opacity:.22; margin:0 auto; }
+.write-line { width:82%; height:1px; background:#222; opacity:.45; margin:0 auto; }
 
 /* SVG 签名 */
 .signature-svg { width:100%; height:150px; z-index:3; position:relative; }
-.signature-path { fill:#1a1a1a; stroke:none; transition: opacity 0.06s ease; }
+.signature-path { fill:#000; stroke:none; transition: opacity 0.06s ease; }
 
 /* ============================================================
    响应式
@@ -232,6 +233,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
       <div class="postcard-wrapper">
         <div id="postcard" class="postcard flex flex-col items-center justify-center">
 
+          <div class="photo-overlay"></div>
           <img id="campusBgFront" class="bg-front" src="" alt="" onerror="this.style.display='none'">
           <div class="ribbon"></div>
 
@@ -239,27 +241,29 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
             <div class="flex items-center gap-3">
               <img id="emblemImg" src="" alt="校徽" style="width:44px;height:44px;object-fit:contain;opacity:.9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))" onerror="this.style.display='none'">
               <div>
-                <span class="text-sm font-extrabold tracking-widest block" style="color:#333;opacity:.8;">博雅未来高中</span>
-                <span class="text-xs tracking-wide block mt-0.5" style="color:#666;opacity:.55;">BOYA FUTURE HIGH SCHOOL</span>
+                <span class="text-sm font-extrabold tracking-widest block" style="color:#1a1a1a; text-shadow: 0 0 6px rgba(255,255,255,.85), 0 0 3px rgba(255,255,255,.9);">博雅未来高中</span>
+                <span class="text-xs tracking-wide block mt-0.5" style="color:#444; text-shadow: 0 0 5px rgba(255,255,255,.85), 0 0 2px rgba(255,255,255,.9);">BOYA FUTURE HIGH SCHOOL</span>
               </div>
             </div>
             <div style="position:relative;width:80px;height:80px;">
               <div class="stamp-area" style="position:absolute;top:0;left:4px;">
                 <img id="stampEmblem" src="" style="width:46px;height:46px;object-fit:cover;opacity:.85;" alt="">
               </div>
-              <div class="postmark" style="position:absolute;top:16px;right:0;">博雅<br>未来</div>
+              <div class="postmark" style="text-shadow:0 0 6px rgba(255,255,255,.85), 0 0 3px rgba(255,255,255,.9)" style="position:absolute;top:16px;right:0;">博雅<br>未来</div>
             </div>
           </div>
 
-          <div class="card-layer w-10/12 h-px mx-auto mt-2" style="background:linear-gradient(90deg,transparent,#999 30%,#666 50%,#999 70%,transparent);opacity:.35;"></div>
+          <div class="card-layer w-10/12 h-px mx-auto mt-2" style="background:linear-gradient(90deg,transparent,#999 30%,#666 50%,#999 70%,transparent);opacity:1;"></div>
 
-          <div class="card-layer flex items-center justify-center w-full px-16" style="min-height:150px;">
+          <div class="card-layer flex items-center justify-center w-full px-16" style="min-height:150px; position:relative;">
+            <div style="position:absolute; inset:-10px 20px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(255,255,255,.35) 0%, rgba(255,255,255,.12) 50%, transparent 75%); pointer-events:none;"></div>
             <svg id="signatureSvg" class="signature-svg" viewBox="0 0 580 140" preserveAspectRatio="xMidYMid meet">
               <text id="placeholderText" x="290" y="72" text-anchor="middle" font-size="17" fill="#1a1a1a" opacity=".18">你的签名将在此呈现</text>
             </svg>
           </div>
 
-          <div class="card-layer flex items-center justify-center w-full px-16" style="margin-top:-12px;">
+          <div class="card-layer flex items-center justify-center w-full px-16" style="margin-top:-12px; position:relative;">
+            <div style="position:absolute; inset:-4px 60px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(255,255,255,.25) 0%, transparent 80%); pointer-events:none;"></div>
             <svg id="quoteSvg" class="signature-svg" viewBox="0 0 580 38" preserveAspectRatio="xMidYMid meet" style="height:38px;"></svg>
           </div>
 
@@ -267,7 +271,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
           <div class="card-layer flex items-center justify-between w-full px-12 mt-3 pb-5">
             <span class="class-stamp text-sm">星河码栈</span>
-            <span class="text-xs tracking-widest font-semibold" style="color:#666;opacity:.55;">STARRIVER CODE STACK</span>
+            <span class="text-xs tracking-widest font-semibold" style="color:#444; text-shadow: 0 0 5px rgba(255,255,255,.85), 0 0 2px rgba(255,255,255,.9);">STARRIVER CODE STACK</span>
           </div>
         </div>
       </div>
@@ -280,6 +284,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
         <div id="postcardBack" class="postcard flex flex-col items-center justify-center">
 
           <img id="campusBgBack" class="bg-back" src="" alt="" onerror="this.style.display='none'">
+
+          <svg id="backSigSvg" class="signature-svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet" style="position:absolute; top:14px; left:-10px; width:200px; height:70px; z-index:4; transform:rotate(-12deg); opacity:.65;"></svg>
 
           <div class="card-layer flex flex-col items-center justify-center w-full h-full" style="gap:12px;">
             <img id="backEmblem" src="" alt="校徽" style="width:56px;height:56px;object-fit:contain;opacity:.75;filter:drop-shadow(0 2px 6px rgba(0,0,0,.1));">
@@ -317,14 +323,13 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     { family:'Ma Shan Zheng', name:'马山正' }, { family:'Liu Jian Mao Cao', name:'柳建毛草' },
     { family:'ZCOOL KuaiLe', name:'站酷快乐' }, { family:'ZCOOL QingKe HuangYou', name:'站酷黄油' },
     { family:'Zhi Mang Xing', name:'志莽行书' }, { family:'Long Cang', name:'龙藏体' },
-    { family:'Noto Serif SC', name:'思源宋体' },
   ];
   var QUOTES = ['天道酬勤','千里之行','学而不厌','志存高远','自强不息','厚德载物','博学笃行','温故知新'];
   var NAMES = ['林星河','苏月华','陈逸飞','赵清欢','周子墨','吴雨桐','郑书瑶','王浩然','李若溪','张明远','刘思源','杨雪晴','唐子涵','柳如烟','沈青禾'];
 
   var postcard = $('postcard'), postcardBack = $('postcardBack');
   var campusFront = $('campusBgFront'), campusBack = $('campusBgBack');
-  var sigSvg = $('signatureSvg'), quoteSvg = $('quoteSvg');
+  var sigSvg = $('signatureSvg'), quoteSvg = $('quoteSvg'), backSigSvg = $('backSigSvg');
   var nameInput = $('nameInput'), charCount = $('charCount');
   var btnGen = $('btnGenerate'), btnDl = $('btnDownload'), btnPr = $('btnPrint');
   var statusMsg = $('statusMsg');
@@ -421,27 +426,29 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     campusBack.src = curPhoto; campusBack.style.display='block';
 
     try {
-      sigSvg.innerHTML=''; quoteSvg.innerHTML='';
+      sigSvg.innerHTML=''; quoteSvg.innerHTML=''; backSigSvg.innerHTML='';
       var ph=$('placeholderText'); if (ph) ph.remove();
       statusMsg.textContent='📥 加载字体 '+font.name+'...'; statusMsg.style.color='#6b7280'; bindUI(false);
       await loadFont(font.family);
       statusMsg.textContent='🔧 生成笔画...';
 
-      var np=trace(font.family,text,580,140);
-      var ink='#1a1a1a';
-      var qp=trace(font.family,pick(QUOTES),580,38,{fontSize:34,color:ink,opacity:'0.55'});
+      var np=trace(font.family,text,580,140,{color:'#000'});
+      var qp=trace(font.family,pick(QUOTES),580,38,{fontSize:34,color:'#000',opacity:'0.55'});
+      var bp=trace(font.family,text,280,80,{fontSize:52,color:'#000',opacity:'1'});
 
       np.forEach(function(p){sigSvg.appendChild(p);});
       qp.forEach(function(p){quoteSvg.appendChild(p);});
+      bp.forEach(function(p){backSigSvg.appendChild(p);});
 
       statusMsg.textContent='✍️ 正在书写...'; statusMsg.style.color='#f59e0b';
       var done = 0;
-      function onDone() { done++; if (done >= 2) { hasWritten=true; bindUI(true); statusMsg.textContent='✅ 字体:'+font.family; statusMsg.style.color='#10b981'; } }
+      function onDone() { done++; if (done >= 3) { hasWritten=true; bindUI(true); statusMsg.textContent='✅ 字体:'+font.family; statusMsg.style.color='#10b981'; } }
       animateWriting(np, onDone);
       animateWriting(qp, onDone);
+      animateWriting(bp, onDone);
     } catch(e) {
       console.error(e); statusMsg.textContent='❌ '+e.message; statusMsg.style.color='#ef4444';
-      bindUI(true); quoteSvg.innerHTML='';
+      bindUI(true); quoteSvg.innerHTML=''; backSigSvg.innerHTML='';
       if (!$('placeholderText')) {
         var el=document.createElementNS('http://www.w3.org/2000/svg','text');
         el.setAttribute('x','290'); el.setAttribute('y','72'); el.setAttribute('text-anchor','middle');
