@@ -33,4 +33,11 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 
 签名生成的核心算法在 `trace()` 函数中：用 Canvas 离屏渲染文字，逐列扫描像素获取笔画的垂直区间，转换为 SVG `<path>` 元素，从而实现文字转矢量笔画路径的效果。
 
+`trace()` 生成的每个 `<path>` 初始 `opacity="0"`，真实透明度存储在 `data-opacity` 属性中。`animateWriting()` 函数用 `requestAnimationFrame` 按时间比例依次显示路径，模拟手写从左到右的笔顺效果。签名和名言同时书写，都完成后才启用下载/打印按钮。
+
 `images.js` 是纯数据文件。如果需要更换图片，修改本地图片文件后重新编码为 base64 替换该文件中的三个变量即可。
+
+## Git 远程
+
+- 仓库地址：`https://github.com/1522836594/jisuanji`
+- 推送前需确保 GitHub 认证已配置（推荐 GitHub CLI `gh auth login` 或 Git Credential Manager）

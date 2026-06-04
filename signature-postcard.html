@@ -172,7 +172,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
 /* SVG 签名 */
 .signature-svg { width:100%; height:150px; z-index:3; position:relative; }
-.signature-path { fill:#1a1a1a; stroke:none; }
+.signature-path { fill:#1a1a1a; stroke:none; transition: opacity 0.06s ease; }
 
 /* ============================================================
    响应式
@@ -364,15 +364,15 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
           var x=col/sc, y=st/sc, w=1/sc, h=l/sc;
           var el=document.createElementNS(ns,'path');
           el.setAttribute('d','M'+x.toFixed(2)+' '+y.toFixed(2)+'h'+w.toFixed(2)+'v'+h.toFixed(2)+'h'+(-w).toFixed(2)+'Z');
-          el.setAttribute('fill',ink); el.setAttribute('opacity',opt.opacity||'1'); el.classList.add('signature-path');
-          paths.push(el);
-        }}
-      }
-      if (inS) { var l=ch-st; if (l>=2) {
+          el.setAttribute('fill',ink); el.setAttribute('data-opacity',opt.opacity||'1'); el.setAttribute('opacity','0'); el.classList.add('signature-path');
+        paths.push(el);
+      }}
+    }
+    if (inS) { var l=ch-st; if (l>=2) {
         var x=col/sc, y=st/sc, w=1/sc, h=l/sc;
         var el=document.createElementNS(ns,'path');
         el.setAttribute('d','M'+x.toFixed(2)+' '+y.toFixed(2)+'h'+w.toFixed(2)+'v'+h.toFixed(2)+'h'+(-w).toFixed(2)+'Z');
-        el.setAttribute('fill',ink); el.setAttribute('opacity',opt.opacity||'1'); el.classList.add('signature-path');
+        el.setAttribute('fill',ink); el.setAttribute('data-opacity',opt.opacity||'1'); el.setAttribute('opacity','0'); el.classList.add('signature-path');
         paths.push(el);
       }}
     }
@@ -381,6 +381,31 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
   }
 
   function bindUI(ok) { btnGen.disabled=!ok; btnDl.disabled=!ok; btnPr.disabled=!ok; }
+
+  function animateWriting(paths, cb) {
+    if (!paths.length) { if (cb) cb(); return; }
+    var total = paths.length;
+    var duration = Math.min(3500, Math.max(600, total * 4));
+    var start = performance.now();
+    var revealed = 0;
+    function frame(now) {
+      var p = Math.min(1, (now - start) / duration);
+      var target = Math.floor(p * total);
+      while (revealed < target) {
+        paths[revealed].setAttribute('opacity', paths[revealed].getAttribute('data-opacity') || '1');
+        revealed++;
+      }
+      if (p < 1) { requestAnimationFrame(frame); }
+      else {
+        while (revealed < total) {
+          paths[revealed].setAttribute('opacity', paths[revealed].getAttribute('data-opacity') || '1');
+          revealed++;
+        }
+        if (cb) cb();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
 
   async function generate() {
     if (btnGen.disabled) return;
@@ -407,8 +432,11 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
       np.forEach(function(p){sigSvg.appendChild(p);});
       qp.forEach(function(p){quoteSvg.appendChild(p);});
 
-      hasWritten=true; bindUI(true);
-      statusMsg.textContent='✅ 字体:'+font.family; statusMsg.style.color='#10b981';
+      statusMsg.textContent='✍️ 正在书写...'; statusMsg.style.color='#f59e0b';
+      var done = 0;
+      function onDone() { done++; if (done >= 2) { hasWritten=true; bindUI(true); statusMsg.textContent='✅ 字体:'+font.family; statusMsg.style.color='#10b981'; } }
+      animateWriting(np, onDone);
+      animateWriting(qp, onDone);
     } catch(e) {
       console.error(e); statusMsg.textContent='❌ '+e.message; statusMsg.style.color='#ef4444';
       bindUI(true); quoteSvg.innerHTML='';
