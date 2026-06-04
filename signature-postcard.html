@@ -332,7 +332,9 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
   // 图片初始化
   $('emblemImg').src = IMG_EMBLEM; $('stampEmblem').src = IMG_EMBLEM; $('backEmblem').src = IMG_EMBLEM;
-  campusFront.src = IMG_CAMPUS1; campusBack.src = IMG_CAMPUS2;
+  var CAMPI = [IMG_CAMPUS1, IMG_CAMPUS2, IMG_CAMPUS3, IMG_CAMPUS4, IMG_CAMPUS5, IMG_CAMPUS6, IMG_CAMPUS7, IMG_CAMPUS8, IMG_CAMPUS9, IMG_CAMPUS10, IMG_CAMPUS11, IMG_CAMPUS12];
+  var curPhoto = pick(CAMPI);
+  campusFront.src = curPhoto; campusBack.src = curPhoto;
 
   function pick(a) { return a[Math.floor(Math.random()*a.length)]; }
 
@@ -385,7 +387,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
   function animateWriting(paths, cb) {
     if (!paths.length) { if (cb) cb(); return; }
     var total = paths.length;
-    var duration = Math.min(3500, Math.max(600, total * 4));
+    var duration = Math.min(1200, Math.max(250, total * 1.5));
     var start = performance.now();
     var revealed = 0;
     function frame(now) {
@@ -415,8 +417,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     if (cn>4||en>10) { statusMsg.textContent='⚠️ 汉字≤4 / 字母≤10'; statusMsg.style.color='#ef4444'; return; }
 
     var font=pick(FONTS);
-    campusFront.src=pick([IMG_CAMPUS1,IMG_CAMPUS2]); campusFront.style.display='block';
-    campusBack.src=pick([IMG_CAMPUS1,IMG_CAMPUS2]); campusBack.style.display='block';
+    var curPhoto = pick(CAMPI); campusFront.src = curPhoto; campusFront.style.display='block';
+    campusBack.src = curPhoto; campusBack.style.display='block';
 
     try {
       sigSvg.innerHTML=''; quoteSvg.innerHTML='';
