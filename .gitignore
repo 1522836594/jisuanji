@@ -1,0 +1,14 @@
+# 临时文件
+*.tmp
+*.log
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Claude 本地配置
+.claude/settings.local.json
+
+# Node (如有)
+node_modules/
