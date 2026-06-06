@@ -30,11 +30,15 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 - **Google Fonts** — 6 款中文书法字体（Ma Shan Zheng, Liu Jian Mao Cao, ZCOOL KuaiLe, ZCOOL QingKe HuangYou, Zhi Mang Xing, Long Cang）+ Noto Serif SC（UI 衬线体）
 - **html2canvas** — DOM 截图生成 PNG 下载
 
+## 明信片规格
+
+尺寸为 A6 横版（148mm × 105mm，比例 640:454）。背景图使用 `object-fit: fill` 完整展示并铺满。正面照片全透，背面照片 50% 透明度作水印，书写横线 1.5px 粗。
+
+下载使用 html2canvas，缩放倍率 3×，输出约 1920×1362 像素（~330 DPI A6），可满足高质量打印需求。
+
 ## UI 样式
 
 全部手写 CSS，不依赖 Tailwind。CSS 变量（`:root`）定义纸色、墨色、朱砂红、阴影层级。自带约 24 个精简工具类（flex/gap/text/spacing）替代 Tailwind。
-
-背景图使用 `object-fit: fill` 完整展示并铺满明信片。正面照片全透，背面照片 28% 透明度作水印。
 
 ## 关键逻辑
 
