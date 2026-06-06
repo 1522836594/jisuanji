@@ -34,7 +34,7 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 
 全部手写 CSS，不依赖 Tailwind。CSS 变量（`:root`）定义纸色、墨色、朱砂红、阴影层级。自带约 24 个精简工具类（flex/gap/text/spacing）替代 Tailwind。
 
-背景图使用 `object-fit: contain` 完整展示照片。正面照片全透，背面照片 28% 透明度作水印。
+背景图使用 `object-fit: fill` 完整展示并铺满明信片。正面照片全透，背面照片 28% 透明度作水印。
 
 ## 关键逻辑
 
