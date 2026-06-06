@@ -1,235 +1,567 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>博雅未来高中 · 艺术签名明信片</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Liu+Jian+Mao+Cao&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=Zhi+Mang+Xing&family=Long+Cang&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Liu+Jian+Mao+Cao&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=Zhi+Mang+Xing&family=Long+Cang&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   全局
+   设计方向：墨韵书香 — 纸纹质感 · 墨色层次 · 朱砂点缀 · 编辑级留白
    ============================================================ */
-* { box-sizing:border-box; }
-body {
-  min-height:100vh; margin:0; font-family:'Noto Serif SC',serif;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(251,191,36,.12) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 100%, rgba(236,72,153,.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(139,92,246,.06) 0%, transparent 60%),
-    linear-gradient(180deg, #fdfcfa 0%, #f8f4ef 30%, #f2ece3 70%, #ede6dc 100%);
-  background-attachment:fixed;
+
+/* ---- 自定义属性 ---- */
+:root {
+  --paper: #faf7f2;
+  --paper-2: #f4efe6;
+  --paper-3: #ede4d4;
+  --paper-4: #e5daca;
+  --ink: #1c1914;
+  --ink-2: #3d3832;
+  --ink-3: #6b6560;
+  --ink-4: #99948e;
+  --vermillion: #c4423b;
+  --vermillion-hover: #d44f48;
+  --vermillion-dark: #9b3229;
+  --gold: #b8864e;
+  --gold-light: #c9a06c;
+  --border: #d9d0c2;
+  --border-light: #e8e0d6;
+  --shadow-xs: 0 1px 2px rgba(28,25,20,0.04);
+  --shadow-sm: 0 2px 8px rgba(28,25,20,0.06);
+  --shadow-md: 0 8px 24px rgba(28,25,20,0.10);
+  --shadow-lg: 0 16px 48px rgba(28,25,20,0.14);
+  --shadow-xl: 0 24px 64px rgba(28,25,20,0.18);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --font-ui: 'Noto Serif SC', serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+
+/* ---- 基础重置 ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  background-color: var(--paper);
   background-image:
-    url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='1' fill='rgba(180,160,140,.08)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='1.5' fill='rgba(160,140,180,.06)'/%3E%3C/svg%3E");
-  background-size:80px 80px, 120px 120px;
+    /* 细微纸纤维纹理 */
+    repeating-linear-gradient(
+      0deg, transparent, transparent 3px,
+      rgba(160,150,135,0.025) 3px, rgba(160,150,135,0.025) 6px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 5px,
+      rgba(155,145,130,0.015) 5px, rgba(155,145,130,0.015) 10px
+    ),
+    /* 暖色环境光 */
+    radial-gradient(ellipse 600px 400px at 20% 15%, rgba(200,180,160,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 500px 350px at 80% 85%, rgba(180,160,140,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 400px 300px at 50% 50%, rgba(210,195,170,0.06) 0%, transparent 70%),
+    linear-gradient(175deg, #faf7f2 0%, #f5efe5 35%, #f0e8db 70%, #ede4d4 100%);
+  background-attachment: fixed;
+}
+
+/* 装饰性墨韵 */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    /* 朱砂淡墨 - 右上 */
+    radial-gradient(ellipse 350px 250px at 88% 8%, rgba(196,66,59,0.025) 0%, transparent 100%),
+    /* 浓墨微痕 - 左下 */
+    radial-gradient(ellipse 250px 200px at 12% 92%, rgba(28,25,20,0.018) 0%, transparent 100%),
+    /* 纸纹噪声叠加 */
+    url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 350px 250px, 250px 200px, 200px 200px;
+  background-position: 88% 8%, 12% 92%, 0 0;
+  background-repeat: no-repeat, no-repeat, repeat;
+}
+
+/* ---- 页面加载动画 ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes inkSpread {
+  from { clip-path: circle(0% at 50% 50%); opacity: 0; }
+  to   { clip-path: circle(100% at 50% 50%); opacity: 1; }
+}
+
+body.loaded .control    { animation: fadeUp 0.7s 0.05s var(--ease) both; }
+body.loaded .card-section:nth-child(1) { animation: fadeUp 0.7s 0.20s var(--ease) both; }
+body.loaded .card-section:nth-child(2) { animation: fadeUp 0.7s 0.35s var(--ease) both; }
+
+/* ---- 精简工具类（替代 Tailwind）---- */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.w-full { width: 100%; }
+.w-10\/12 { width: 83.333%; }
+.h-full { height: 100%; }
+.h-px { height: 1px; }
+.px-12 { padding-left: 3rem; padding-right: 3rem; }
+.px-16 { padding-left: 4rem; padding-right: 4rem; }
+.pt-4 { padding-top: 1rem; }
+.pb-5 { padding-bottom: 1.25rem; }
+.mt-0\.5 { margin-top: 0.125rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.gap-3 { gap: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-center { text-align: center; }
+.tracking-wide { letter-spacing: 0.025em; }
+.tracking-widest { letter-spacing: 0.1em; }
+.font-extrabold { font-weight: 800; }
+.font-semibold { font-weight: 600; }
+.block { display: block; }
+.relative { position: relative; }
+
+/* ---- 主布局 ---- */
+.main-layout {
+  display: flex; gap: 48px; align-items: flex-start; justify-content: center;
+  position: relative; z-index: 1; max-width: 1400px; width: 100%;
 }
 
 /* ============================================================
-   左侧控制台
+   控制台 — 如案头笺纸
    ============================================================ */
 .control {
-  background:linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.45) 100%);
-  backdrop-filter:blur(36px); -webkit-backdrop-filter:blur(36px);
-  border:1px solid rgba(255,255,255,.7); border-radius:28px;
-  padding:36px 32px;
+  width: 300px; flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 40px 34px;
+  background: linear-gradient(175deg, rgba(255,255,255,0.75) 0%, rgba(250,247,242,0.7) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   box-shadow:
-    0 12px 48px rgba(0,0,0,.08),
-    0 4px 16px rgba(0,0,0,.04),
-    inset 0 1px 0 rgba(255,255,255,.8),
-    inset 0 -1px 0 rgba(255,255,255,.3);
-  width:290px; flex-shrink:0; display:flex; flex-direction:column; gap:22px;
-  position:relative; overflow:hidden;
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(0,0,0,0.03);
+  position: relative; overflow: hidden;
 }
+
+/* 笺纸装饰线 */
 .control::before {
-  content:''; position:absolute; top:-60px; right:-60px; width:120px; height:120px;
-  background:radial-gradient(circle, rgba(249,115,22,.08) 0%, transparent 70%);
-  border-radius:50%; pointer-events:none;
+  content: '';
+  position: absolute; top: 28px; left: 28px; right: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vermillion) 15%, var(--vermillion) 25%, var(--gold) 50%, var(--vermillion) 75%, var(--vermillion) 85%, transparent);
+  opacity: 0.5; pointer-events: none; z-index: 1;
 }
+
 .control-title {
-  font-size:22px; font-weight:800; letter-spacing:.12em; text-align:center;
-  background:linear-gradient(135deg,#f97316,#e11d48,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  position:relative; z-index:1;
+  font-family: 'Ma Shan Zheng', var(--font-ui);
+  font-size: 32px; font-weight: 400; text-align: center;
+  color: var(--ink); letter-spacing: 0.18em;
+  line-height: 1.2; position: relative; z-index: 1;
+  padding-top: 12px;
 }
-.control-subtitle { font-size:11px; text-align:center; color:#a8a29e; letter-spacing:.15em; margin-top:-18px; position:relative; z-index:1; }
+
+.control-subtitle {
+  font-size: 11px; text-align: center; color: var(--ink-4);
+  letter-spacing: 0.22em; margin-top: -18px;
+  position: relative; z-index: 1;
+  font-weight: 400;
+}
+
 .control-divider {
-  height:2px; border-radius:1px;
-  background:linear-gradient(90deg, transparent, rgba(249,115,22,.2) 20%, rgba(139,92,246,.2) 50%, rgba(236,72,153,.2) 80%, transparent);
+  height: 1px; margin: 4px 0;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
 }
+
 .control-label {
-  font-size:12px; font-weight:700; color:#78716c; margin-bottom:8px; letter-spacing:.08em;
-  display:flex; align-items:center; gap:6px;
+  font-size: 12px; font-weight: 600; color: var(--ink-3);
+  margin-bottom: 10px; letter-spacing: 0.10em;
+  display: flex; align-items: center; gap: 8px;
 }
-.control-label::before { content:''; width:4px; height:14px; border-radius:2px; background:linear-gradient(180deg,#f97316,#8b5cf6); }
+
+/* 朱砂标签点缀 */
+.control-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--vermillion);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
 .control-input {
-  width:100%; padding:14px 18px; border:2px solid rgba(0,0,0,.06); border-radius:16px;
-  font-size:17px; text-align:center; letter-spacing:.15em; outline:none;
-  background:rgba(255,255,255,.7); font-family:inherit; transition:all .3s;
+  width: 100%; padding: 14px 0; border: none;
+  font-size: 18px; text-align: center; letter-spacing: 0.2em;
+  outline: none; font-family: var(--font-ui); font-weight: 400;
+  background: transparent;
+  color: var(--ink);
+  border-bottom: 2px solid var(--border);
+  border-radius: 0;
+  transition: all 0.35s var(--ease);
 }
 .control-input:focus {
-  border-color:#f97316; background:#fff;
-  box-shadow:0 0 0 6px rgba(249,115,22,.06), 0 4px 16px rgba(249,115,22,.1);
+  border-bottom-color: var(--vermillion);
 }
-.control-input::placeholder { color:#d6d3d1; }
-.control-hint { font-size:10px; color:#a8a29e; text-align:center; margin-top:6px; letter-spacing:.04em; }
+.control-input::placeholder {
+  color: var(--ink-4); letter-spacing: 0.15em; font-weight: 300;
+}
 
-.status-msg { font-size:10px; text-align:center; color:#a8a29e; min-height:16px; letter-spacing:.04em; }
+.control-hint {
+  font-size: 10px; color: var(--ink-4); text-align: center;
+  margin-top: 8px; letter-spacing: 0.06em; font-weight: 300;
+}
 
-/* 按钮 */
+.status-msg {
+  font-size: 11px; text-align: center; color: var(--ink-4);
+  min-height: 18px; letter-spacing: 0.06em; font-weight: 400;
+  transition: color 0.4s;
+}
+
+/* ---- 按钮 ---- */
+.btn-row { display: flex; flex-direction: column; gap: 10px; }
+
 .btn-gen {
-  width:100%; padding:15px; border-radius:16px; border:none; font-size:16px; font-weight:700; letter-spacing:.1em;
-  cursor:pointer; color:#fff; transition:all .35s;
-  background:linear-gradient(135deg,#f97316,#ec4899,#8b5cf6,#06b6d4); background-size:300% 300%;
-  animation:gradientShift 5s ease infinite;
-  box-shadow:0 8px 28px rgba(249,115,22,.3), 0 2px 8px rgba(249,115,22,.15);
-  position:relative; overflow:hidden;
+  width: 100%; padding: 16px 24px;
+  border: none; border-radius: var(--radius-md);
+  font-size: 15px; font-weight: 600; letter-spacing: 0.12em;
+  cursor: pointer; color: #fff; font-family: var(--font-ui);
+  background: var(--vermillion);
+  box-shadow:
+    0 4px 16px rgba(196,66,59,0.3),
+    0 1px 4px rgba(196,66,59,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.3s var(--ease);
+  position: relative; overflow: hidden;
 }
 .btn-gen::after {
-  content:''; position:absolute; inset:0; border-radius:16px;
-  background:linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 50%);
-  pointer-events:none;
+  content: '';
+  position: absolute; inset: 0; border-radius: var(--radius-md);
+  background: linear-gradient(175deg, rgba(255,255,255,0.12) 0%, transparent 40%);
+  pointer-events: none;
 }
-.btn-gen:hover { transform:translateY(-3px); box-shadow:0 12px 36px rgba(236,72,153,.4), 0 4px 12px rgba(236,72,153,.2); }
-.btn-gen:active { transform:translateY(0); }
-.btn-gen:disabled { background:#d6d3d1; animation:none; cursor:not-allowed; box-shadow:0 2px 8px rgba(0,0,0,.06); transform:none; }
-.btn-gen:disabled::after { display:none; }
-@keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+.btn-gen:hover {
+  background: var(--vermillion-hover);
+  box-shadow:
+    0 8px 28px rgba(196,66,59,0.4),
+    0 2px 8px rgba(196,66,59,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+.btn-gen:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 8px rgba(196,66,59,0.25),
+    inset 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn-gen:disabled {
+  background: var(--ink-4); cursor: not-allowed;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06); transform: none;
+}
+.btn-gen:disabled::after { display: none; }
 
 .btn-sub {
-  width:100%; padding:11px; border-radius:14px; font-size:13px; font-weight:600; letter-spacing:.06em;
-  cursor:pointer; transition:all .3s;
-  background:rgba(255,255,255,.55); border:1.5px solid rgba(0,0,0,.08); color:#57534e;
-  box-shadow:0 1px 3px rgba(0,0,0,.04);
+  width: 100%; padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+  cursor: pointer; font-family: var(--font-ui);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--ink-2);
+  transition: all 0.3s var(--ease);
 }
-.btn-sub:hover { background:rgba(255,255,255,.85); border-color:rgba(0,0,0,.15); box-shadow:0 4px 12px rgba(0,0,0,.06); transform:translateY(-1px); }
-.btn-sub:disabled { opacity:1; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-sub:hover {
+  background: rgba(255,255,255,0.6);
+  border-color: var(--ink-4);
+  color: var(--ink);
+  box-shadow: var(--shadow-xs);
+}
+.btn-sub:disabled {
+  opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none;
+}
 
 /* ============================================================
-   右侧卡片区
+   明信片区
    ============================================================ */
-.cards-area { display:flex; flex-direction:column; gap:28px; flex-shrink:0; }
+.cards-area {
+  display: flex; flex-direction: column; gap: 32px;
+  flex-shrink: 0;
+}
+
 .card-section {
-  display:flex; flex-direction:column; gap:10px;
-  background:rgba(255,255,255,.35); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.5); border-radius:24px; padding:20px;
-  box-shadow:0 4px 24px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.5);
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 24px;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
+
 .card-label {
-  font-size:11px; font-weight:700; letter-spacing:.25em; color:#a8a29e; text-align:center;
-  padding:4px 16px; width:fit-content; margin:0 auto;
-  background:rgba(255,255,255,.4); border-radius:20px; border:1px solid rgba(255,255,255,.6);
+  font-size: 10px; font-weight: 600; letter-spacing: 0.28em;
+  color: var(--ink-4); text-align: center;
+  padding: 4px 20px; width: fit-content; margin: 0 auto;
+  background: rgba(255,255,255,0.5);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
 }
 
 /* ============================================================
-   明信片卡片
+   明信片卡片 — 如真实纸卡
    ============================================================ */
+.postcard-wrapper { position: relative; }
+
 .postcard {
-  position:relative; width:640px; height:430px; background-color:#fafaf7; overflow:hidden; border-radius:10px;
+  position: relative; width: 640px; height: 430px;
+  background-color: #fcfaf6; overflow: hidden; border-radius: 8px;
   background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(128,128,128,.01) 4px, rgba(128,128,128,.01) 5px),
-    radial-gradient(ellipse at 20% 25%, rgba(255,255,255,.5) 0%, transparent 60%);
-  box-shadow:0 8px 36px rgba(0,0,0,.16), 0 2px 8px rgba(0,0,0,.06); transition:all .5s;
+    /* 纸面微纹理 */
+    repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(160,150,130,0.012) 2px, rgba(160,150,130,0.012) 4px
+    ),
+    /* 柔和光晕 */
+    radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.7) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.5) 0%, transparent 45%);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.06),
+    0 6px 20px rgba(0,0,0,0.10),
+    0 16px 48px rgba(0,0,0,0.12);
+  transition: all 0.5s var(--ease);
 }
-.postcard:hover { box-shadow:0 12px 48px rgba(0,0,0,.22), 0 4px 12px rgba(0,0,0,.08); transform:translateY(-1px); }
-.postcard::before { content:''; position:absolute; inset:10px; border:2px solid rgba(160,160,160,.2); border-radius:7px; pointer-events:none; z-index:2; opacity:.5; }
-.postcard::after { content:''; position:absolute; inset:0; pointer-events:none; z-index:0; border-radius:10px;
-  background:radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.04) 100%);
+.postcard:hover {
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 10px 32px rgba(0,0,0,0.13),
+    0 24px 60px rgba(0,0,0,0.16);
+  transform: translateY(-2px);
 }
 
-/* 照片背景 */
-.bg-front { position:absolute; inset:0; z-index:0; object-fit:cover; opacity:1; border-radius:10px; pointer-events:none; }
-  .photo-overlay { position:absolute; inset:0; z-index:1; border-radius:10px; pointer-events:none; background:linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.20) 100%); }
-.bg-back  { position:absolute; inset:0; z-index:0; object-fit:cover; opacity:.35; border-radius:10px; pointer-events:none; }
+/* 内边框 — 明信片白边 */
+.postcard::before {
+  content: '';
+  position: absolute; inset: 9px; border: 1.5px solid rgba(160,150,135,0.18);
+  border-radius: 5px; pointer-events: none; z-index: 2;
+}
 
-/* 内部层级 */
-.card-layer { position:relative; z-index:3; }
+/* 边缘暗角 */
+.postcard::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; border-radius: 8px;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.05) 100%);
+}
 
-/* 顶部装饰条 */
-.ribbon { position:relative; z-index:3; width:82%; height:2px; margin:6px auto 3px;
-  background:linear-gradient(90deg, transparent, #999 15%, #666 50%, #999 85%, transparent); opacity:.4; }
-.divider { width:66%; height:1px; margin:0 auto;
-  background:linear-gradient(90deg, transparent, #999 25%, #666 50%, #999 75%, transparent); opacity:.4; }
+/* ---- 照片背景 ---- */
+.bg-front {
+  position: absolute; inset: 0; z-index: 0;
+  object-fit: contain; border-radius: 8px;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.photo-overlay {
+  position: absolute; inset: 0; z-index: 1; border-radius: 8px;
+  pointer-events: none;
+  background:
+    linear-gradient(175deg,
+      rgba(252,250,246,0.18) 0%,
+      rgba(252,250,246,0.10) 35%,
+      rgba(252,250,246,0.25) 65%,
+      rgba(252,250,246,0.30) 100%);
+}
 
-/* 邮戳 & 邮票 */
-.postmark { width:66px; height:66px; border:2.5px solid #b45309; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:10px; letter-spacing:.12em; color:#b45309; opacity:.6;
-  transform:rotate(-10deg); text-align:center; line-height:1.25; z-index:3; font-weight:700; }
-.postmark::after { content:''; position:absolute; inset:4px; border:1.5px dashed #b45309; border-radius:50%; opacity:.4; }
-.stamp-area { width:52px; height:58px; border:1.5px dashed #b45309; z-index:2;
-  display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.3); position:relative; overflow:hidden; }
+.bg-back {
+  position: absolute; inset: 0; z-index: 0;
+  object-fit: contain; opacity: 0.28; border-radius: 8px;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
 
-/* 印章 */
-.class-stamp { display:inline-block; color:#b45309; border:2.5px solid #b45309;
-  padding:6px 18px; font-weight:700; letter-spacing:.28em; opacity:.9; border-radius:5px;
-  text-shadow:0 0 8px rgba(255,255,255,.9), 0 0 3px rgba(255,255,255,.95); background:rgba(255,255,255,.3); }
+/* ---- 内部层级 ---- */
+.card-layer { position: relative; z-index: 3; }
 
-/* 背面书写线 */
-.write-line { width:82%; height:1px; background:#222; opacity:.45; margin:0 auto; }
+/* ---- 顶部装饰条 ---- */
+.ribbon {
+  position: relative; z-index: 3;
+  width: 84%; height: 1.5px; margin: 8px auto 0;
+  background: linear-gradient(90deg, transparent, var(--ink-4) 18%, var(--ink-3) 50%, var(--ink-4) 82%, transparent);
+  opacity: 0.35;
+}
 
-/* SVG 签名 */
-.signature-svg { width:100%; height:150px; z-index:3; position:relative; }
-.signature-path { fill:#000; stroke:none; transition: opacity 0.06s ease; }
+.divider {
+  width: 68%; height: 1px; margin: 0 auto;
+  background: linear-gradient(90deg, transparent, var(--ink-4) 28%, var(--ink-3) 50%, var(--ink-4) 72%, transparent);
+  opacity: 0.35;
+}
+
+/* ---- 邮戳 & 邮票区 ---- */
+.postmark {
+  width: 64px; height: 64px;
+  border: 2.5px solid var(--vermillion);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; letter-spacing: 0.10em; color: var(--vermillion);
+  opacity: 0.55; transform: rotate(-10deg);
+  text-align: center; line-height: 1.3; z-index: 3;
+  font-weight: 700; font-family: var(--font-ui);
+  text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 2px rgba(255,255,255,0.95);
+}
+.postmark::after {
+  content: '';
+  position: absolute; inset: 3px;
+  border: 1.5px dashed var(--vermillion);
+  border-radius: 50%; opacity: 0.35;
+}
+
+.stamp-area {
+  width: 50px; height: 56px;
+  border: 1.5px dashed var(--vermillion);
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.35);
+  position: relative; overflow: hidden;
+  opacity: 0.7;
+}
+
+/* ---- 班级印章 ---- */
+.class-stamp {
+  display: inline-block;
+  color: var(--vermillion);
+  border: 2.5px solid var(--vermillion);
+  padding: 6px 20px;
+  font-weight: 700; letter-spacing: 0.28em;
+  opacity: 0.88; border-radius: 4px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 3px rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.3);
+  font-family: var(--font-ui);
+}
+
+/* ---- 背面书写线 ---- */
+.write-line {
+  width: 84%; height: 1px;
+  background: var(--ink-3);
+  opacity: 0.4; margin: 0 auto;
+}
+
+/* ---- SVG 签名区域 ---- */
+.signature-svg {
+  width: 100%; height: 150px;
+  z-index: 3; position: relative;
+}
+.signature-path {
+  fill: #000;
+  stroke: none;
+  transition: opacity 0.04s ease;
+}
 
 /* ============================================================
    响应式
    ============================================================ */
-@media (max-width:1300px) {
-  .main-layout { flex-direction:column; align-items:center; }
-  .control { width:100%; max-width:500px; }
-  .cards-area { flex-direction:row; flex-wrap:wrap; justify-content:center; }
+@media (max-width: 1320px) {
+  body { padding: 28px 20px; }
+  .main-layout { flex-direction: column; align-items: center; gap: 32px; }
+  .control {
+    width: 100%; max-width: 540px;
+    flex-direction: row; flex-wrap: wrap; gap: 16px;
+    padding: 28px 32px; align-items: center;
+  }
+  .control::before { display: none; }
+  .control-title { font-size: 28px; width: 100%; padding-top: 0; }
+  .control-subtitle { width: 100%; margin-top: -12px; }
+  .control-divider { width: 100%; }
+  .btn-row { flex-direction: row; width: 100%; }
+  .btn-row .btn-gen { flex: 2; }
+  .btn-row .btn-sub { flex: 1; }
+  .cards-area { flex-direction: row; flex-wrap: wrap; justify-content: center; }
 }
-@media (max-width:700px) {
-  .postcard { width:100%; aspect-ratio:640/430; height:auto; }
-  .cards-area { flex-direction:column; align-items:center; }
+
+@media (max-width: 760px) {
+  body { padding: 16px 12px; }
+  .main-layout { gap: 20px; }
+  .control { padding: 20px 20px; gap: 12px; }
+  .control-title { font-size: 24px; }
+  .btn-row { flex-direction: column; }
+  .postcard { width: 100%; aspect-ratio: 640/430; height: auto; }
+  .cards-area { flex-direction: column; align-items: center; }
+  .card-section { padding: 12px; }
 }
+
+/* ============================================================
+   打印样式
+   ============================================================ */
 @media print {
-  @page { size:landscape; margin:0; }
-  body { background:white !important; display:flex !important; align-items:center !important; justify-content:center !important;
-    min-height:100vh !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  body::before { display:none !important; }
-  .no-print { display:none !important; }
-  .main-layout { flex-direction:column !important; align-items:center !important; gap:0 !important; }
-  .cards-area { flex-direction:row !important; gap:12px !important; }
-  .card-label { display:none !important; }
-  .postcard { box-shadow:none !important; border-radius:0 !important; width:48vw !important; height:auto !important; aspect-ratio:640/430 !important; max-width:none !important; }
+  @page { size: landscape; margin: 0; }
+  body {
+    background: white !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    min-height: 100vh !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body::before { display: none !important; }
+  .no-print { display: none !important; }
+  .main-layout { flex-direction: column !important; align-items: center !important; gap: 0 !important; }
+  .cards-area { flex-direction: row !important; gap: 8px !important; }
+  .card-label { display: none !important; }
+  .card-section { background: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+  .postcard {
+    box-shadow: none !important; border-radius: 0 !important;
+    width: 48vw !important; height: auto !important;
+    aspect-ratio: 640/430 !important; max-width: none !important;
+  }
 }
 </style>
 </head>
-<body class="flex items-center justify-center p-8 md:p-12">
+<body>
+<script>
+/* 页面加载后触发入场动画 */
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.classList.add('loaded');
+});
+</script>
 
-<div class="main-layout flex gap-8 items-start justify-center relative z-10">
+<div class="main-layout">
 
-  <!-- ==================== 左侧控制台 ==================== -->
+  <!-- ==================== 控制台 ==================== -->
   <div class="control no-print">
-    <div class="control-title">🎴 签名明信片</div>
+    <div class="control-title">签名明信片</div>
     <div class="control-subtitle">博雅未来高中 · 专属定制</div>
     <div class="control-divider"></div>
 
-    <div>
+    <div style="flex:1; min-width:180px;">
       <div class="control-label">你的名字</div>
-      <input id="nameInput" class="control-input" placeholder="例如：林星河" maxlength="10" autocomplete="off">
-      <div class="control-hint">已输入 <span id="charCount">0</span> 字符 · 最多4汉字 / 10字母</div>
+      <input id="nameInput" class="control-input" placeholder="林星河" maxlength="10" autocomplete="off">
+      <div class="control-hint">已输入 <span id="charCount">0</span> 字符 · 最多 4 汉字 / 10 字母</div>
     </div>
 
-    <div class="flex flex-col gap-3">
-      <button id="btnGenerate" class="btn-gen">🎲 随机生成签名</button>
-      <button id="btnDownload" class="btn-sub" disabled>📥 下载明信片（正反面）</button>
-      <button id="btnPrint" class="btn-sub" disabled>🖨️ 直接打印</button>
+    <div class="btn-row">
+      <button id="btnGenerate" class="btn-gen">随机生成签名</button>
+      <button id="btnDownload" class="btn-sub" disabled>下载明信片（正反面）</button>
+      <button id="btnPrint" class="btn-sub" disabled>直接打印</button>
     </div>
     <div id="statusMsg" class="status-msg">输入名字，点击按钮随机生成</div>
   </div>
 
-  <!-- ==================== 右侧明信片区 ==================== -->
+  <!-- ==================== 明信片区 ==================== -->
   <div class="cards-area">
 
     <!-- 正面 -->
     <div class="card-section">
-      <div class="card-label">—— 正面 ——</div>
+      <div class="card-label">正面</div>
       <div class="postcard-wrapper">
         <div id="postcard" class="postcard flex flex-col items-center justify-center">
 
@@ -239,31 +571,31 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
           <div class="card-layer flex items-center justify-between w-full px-12 pt-4">
             <div class="flex items-center gap-3">
-              <img id="emblemImg" src="" alt="校徽" style="width:44px;height:44px;object-fit:contain;opacity:.9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))" onerror="this.style.display='none'">
+              <img id="emblemImg" src="" alt="校徽" style="width:44px;height:44px;object-fit:contain;opacity:.9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08))" onerror="this.style.display='none'">
               <div>
-                <span class="text-sm font-extrabold tracking-widest block" style="color:#1a1a1a; text-shadow: 0 0 6px rgba(255,255,255,.85), 0 0 3px rgba(255,255,255,.9);">博雅未来高中</span>
-                <span class="text-xs tracking-wide block mt-0.5" style="color:#444; text-shadow: 0 0 5px rgba(255,255,255,.85), 0 0 2px rgba(255,255,255,.9);">BOYA FUTURE HIGH SCHOOL</span>
+                <span class="text-sm font-extrabold tracking-widest block" style="color:#1a1a1a;text-shadow:0 0 6px rgba(255,255,255,.85),0 0 3px rgba(255,255,255,.9)">博雅未来高中</span>
+                <span class="text-xs tracking-wide block mt-0.5" style="color:#444;text-shadow:0 0 5px rgba(255,255,255,.85),0 0 2px rgba(255,255,255,.9)">BOYA FUTURE HIGH SCHOOL</span>
               </div>
             </div>
             <div style="position:relative;width:80px;height:80px;">
               <div class="stamp-area" style="position:absolute;top:0;left:4px;">
                 <img id="stampEmblem" src="" style="width:46px;height:46px;object-fit:cover;opacity:.85;" alt="">
               </div>
-              <div class="postmark" style="text-shadow:0 0 6px rgba(255,255,255,.85), 0 0 3px rgba(255,255,255,.9)" style="position:absolute;top:16px;right:0;">博雅<br>未来</div>
+              <div class="postmark" style="position:absolute;top:16px;right:0;">博雅<br>未来</div>
             </div>
           </div>
 
           <div class="card-layer w-10/12 h-px mx-auto mt-2" style="background:linear-gradient(90deg,transparent,#999 30%,#666 50%,#999 70%,transparent);opacity:1;"></div>
 
-          <div class="card-layer flex items-center justify-center w-full px-16" style="min-height:150px; position:relative;">
-            <div style="position:absolute; inset:-10px 20px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(255,255,255,.35) 0%, rgba(255,255,255,.12) 50%, transparent 75%); pointer-events:none;"></div>
+          <div class="card-layer flex items-center justify-center w-full px-16" style="min-height:150px;position:relative;">
+            <div style="position:absolute;inset:-10px 20px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.35) 0%,rgba(255,255,255,.12) 50%,transparent 75%);pointer-events:none;"></div>
             <svg id="signatureSvg" class="signature-svg" viewBox="0 0 580 140" preserveAspectRatio="xMidYMid meet">
               <text id="placeholderText" x="290" y="72" text-anchor="middle" font-size="17" fill="#1a1a1a" opacity=".18">你的签名将在此呈现</text>
             </svg>
           </div>
 
-          <div class="card-layer flex items-center justify-center w-full px-16" style="margin-top:-12px; position:relative;">
-            <div style="position:absolute; inset:-4px 60px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(255,255,255,.25) 0%, transparent 80%); pointer-events:none;"></div>
+          <div class="card-layer flex items-center justify-center w-full px-16" style="margin-top:-12px;position:relative;">
+            <div style="position:absolute;inset:-4px 60px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.25) 0%,transparent 80%);pointer-events:none;"></div>
             <svg id="quoteSvg" class="signature-svg" viewBox="0 0 580 38" preserveAspectRatio="xMidYMid meet" style="height:38px;"></svg>
           </div>
 
@@ -271,7 +603,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
           <div class="card-layer flex items-center justify-between w-full px-12 mt-3 pb-5">
             <span class="class-stamp text-sm">星河码栈</span>
-            <span class="text-xs tracking-widest font-semibold" style="color:#444; text-shadow: 0 0 5px rgba(255,255,255,.85), 0 0 2px rgba(255,255,255,.9);">STARRIVER CODE STACK</span>
+            <span class="text-xs tracking-widest font-semibold" style="color:#444;text-shadow:0 0 5px rgba(255,255,255,.85),0 0 2px rgba(255,255,255,.9)">STARRIVER CODE STACK</span>
           </div>
         </div>
       </div>
@@ -279,16 +611,16 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
     <!-- 背面 -->
     <div class="card-section">
-      <div class="card-label">—— 背面 ——</div>
+      <div class="card-label">背面</div>
       <div class="postcard-wrapper">
         <div id="postcardBack" class="postcard flex flex-col items-center justify-center">
 
           <img id="campusBgBack" class="bg-back" src="" alt="" onerror="this.style.display='none'">
 
-          <svg id="backSigSvg" class="signature-svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet" style="position:absolute; top:14px; left:-10px; width:200px; height:70px; z-index:4; transform:rotate(-12deg); opacity:.65;"></svg>
+          <svg id="backSigSvg" class="signature-svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet" style="position:absolute;bottom:30px;right:20px;width:180px;height:60px;z-index:4;opacity:.65;"></svg>
 
           <div class="card-layer flex flex-col items-center justify-center w-full h-full" style="gap:12px;">
-            <img id="backEmblem" src="" alt="校徽" style="width:56px;height:56px;object-fit:contain;opacity:.75;filter:drop-shadow(0 2px 6px rgba(0,0,0,.1));">
+            <img id="backEmblem" src="" alt="校徽" style="width:56px;height:56px;object-fit:contain;opacity:.75;filter:drop-shadow(0 2px 6px rgba(0,0,0,.08))">
 
             <div class="text-center">
               <span class="text-sm font-extrabold tracking-widest block" style="color:#333;opacity:.8;">博雅未来高中</span>
@@ -297,7 +629,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
             <div class="divider" style="width:40%;"></div>
 
-            <div style="width:82%; display:flex; flex-direction:column; gap:24px;">
+            <div style="width:84%;display:flex;flex-direction:column;gap:22px;">
               <div class="write-line"></div><div class="write-line"></div>
               <div class="write-line"></div><div class="write-line"></div>
               <div class="write-line"></div><div class="write-line"></div>
@@ -419,7 +751,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     var text = nameInput.value.trim();
     if (!text) { text=pick(NAMES); nameInput.value=text; charCount.textContent=text.length; }
     var cn=(text.match(/[一-鿿㐀-䶿]/g)||[]).length, en=(text.match(/[a-zA-Z]/g)||[]).length;
-    if (cn>4||en>10) { statusMsg.textContent='⚠️ 汉字≤4 / 字母≤10'; statusMsg.style.color='#ef4444'; return; }
+    if (cn>4||en>10) { statusMsg.textContent='⚠ 汉字≤4 / 字母≤10'; statusMsg.style.color='var(--vermillion)'; return; }
 
     var font=pick(FONTS);
     var curPhoto = pick(CAMPI); campusFront.src = curPhoto; campusFront.style.display='block';
@@ -428,9 +760,9 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     try {
       sigSvg.innerHTML=''; quoteSvg.innerHTML=''; backSigSvg.innerHTML='';
       var ph=$('placeholderText'); if (ph) ph.remove();
-      statusMsg.textContent='📥 加载字体 '+font.name+'...'; statusMsg.style.color='#6b7280'; bindUI(false);
+      statusMsg.textContent='加载字体 '+font.name+'…'; statusMsg.style.color='var(--ink-3)'; bindUI(false);
       await loadFont(font.family);
-      statusMsg.textContent='🔧 生成笔画...';
+      statusMsg.textContent='生成笔画…';
 
       var np=trace(font.family,text,580,140,{color:'#000'});
       var qp=trace(font.family,pick(QUOTES),580,38,{fontSize:34,color:'#000',opacity:'0.55'});
@@ -440,14 +772,14 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
       qp.forEach(function(p){quoteSvg.appendChild(p);});
       bp.forEach(function(p){backSigSvg.appendChild(p);});
 
-      statusMsg.textContent='✍️ 正在书写...'; statusMsg.style.color='#f59e0b';
+      statusMsg.textContent='正在书写…'; statusMsg.style.color='var(--gold)';
       var done = 0;
-      function onDone() { done++; if (done >= 3) { hasWritten=true; bindUI(true); statusMsg.textContent='✅ 字体:'+font.family; statusMsg.style.color='#10b981'; } }
+      function onDone() { done++; if (done >= 3) { hasWritten=true; bindUI(true); statusMsg.textContent='完成 · '+font.name; statusMsg.style.color='var(--ink-3)'; } }
       animateWriting(np, onDone);
       animateWriting(qp, onDone);
       animateWriting(bp, onDone);
     } catch(e) {
-      console.error(e); statusMsg.textContent='❌ '+e.message; statusMsg.style.color='#ef4444';
+      console.error(e); statusMsg.textContent='生成失败: '+e.message; statusMsg.style.color='var(--vermillion)';
       bindUI(true); quoteSvg.innerHTML=''; backSigSvg.innerHTML='';
       if (!$('placeholderText')) {
         var el=document.createElementNS('http://www.w3.org/2000/svg','text');
@@ -460,11 +792,11 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
 
   async function download() {
     if (!hasWritten) return;
-    statusMsg.textContent='📸 生成高清图片...'; statusMsg.style.color='#6b7280'; btnDl.disabled=true;
+    statusMsg.textContent='生成高清图片…'; statusMsg.style.color='var(--ink-3)'; btnDl.disabled=true;
     await new Promise(function(r){setTimeout(r,300);});
 
-    var c1=await html2canvas(postcard,{backgroundColor:'#fafaf7',scale:2.5,useCORS:false,allowTaint:false,logging:false});
-    var c2=await html2canvas(postcardBack,{backgroundColor:'#fafaf7',scale:2.5,useCORS:false,allowTaint:false,logging:false});
+    var c1=await html2canvas(postcard,{backgroundColor:'#fcfaf6',scale:2.5,useCORS:false,allowTaint:false,logging:false});
+    var c2=await html2canvas(postcardBack,{backgroundColor:'#fcfaf6',scale:2.5,useCORS:false,allowTaint:false,logging:false});
 
     var name=nameInput.value.trim()||'未命名';
     var a1=document.createElement('a');
@@ -475,7 +807,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index
     a2.download='博雅未来_明信片背面_'+name+'.png';
     a2.href=c2.toDataURL('image/png',1.0); a2.click();
 
-    statusMsg.textContent='✅ 已下载正面和背面两张图片！'; statusMsg.style.color='#10b981'; btnDl.disabled=false;
+    statusMsg.textContent='已下载正面和背面两张图片'; statusMsg.style.color='var(--ink-3)'; btnDl.disabled=false;
   }
 
   function print() { if (hasWritten) window.print(); }
