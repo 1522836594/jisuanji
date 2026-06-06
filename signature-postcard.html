@@ -224,6 +224,47 @@ body.loaded .card-section:nth-child(2) { animation: fadeUp 0.7s 0.35s var(--ease
   margin-top: 8px; letter-spacing: 0.06em; font-weight: 300;
 }
 
+/* ---- 照片选择器 ---- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+.photo-thumb {
+  width: 100%;
+  aspect-ratio: 640/454;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  object-fit: cover;
+  transition: all 0.25s var(--ease);
+  opacity: 0.55;
+  background: var(--paper-2);
+}
+.photo-thumb:hover { opacity: 0.85; border-color: var(--border); }
+.photo-thumb.selected { border-color: var(--vermillion); opacity: 1; box-shadow: 0 0 0 3px rgba(196,66,59,0.15); }
+
+/* ---- 字体选择器 ---- */
+.font-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.font-btn {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.25s var(--ease);
+  color: var(--ink-2);
+  font-family: inherit;
+  letter-spacing: 0.04em;
+}
+.font-btn:hover { background: rgba(255,255,255,0.7); border-color: var(--ink-4); }
+.font-btn.selected { border-color: var(--vermillion); background: rgba(196,66,59,0.06); color: var(--vermillion); font-weight: 600; }
+
 .status-msg {
   font-size: 11px; text-align: center; color: var(--ink-4);
   min-height: 18px; letter-spacing: 0.06em; font-weight: 400;
@@ -548,6 +589,16 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="control-hint">已输入 <span id="charCount">0</span> 字符 · 最多 4 汉字 / 10 字母</div>
     </div>
 
+    <div>
+      <div class="control-label">背景照片</div>
+      <div id="photoGrid" class="photo-grid"></div>
+    </div>
+
+    <div>
+      <div class="control-label">书法字体</div>
+      <div id="fontGrid" class="font-grid"></div>
+    </div>
+
     <div class="btn-row">
       <button id="btnGenerate" class="btn-gen">随机生成签名</button>
       <button id="btnDownload" class="btn-sub" disabled>下载明信片（正反面）</button>
@@ -670,6 +721,72 @@ document.addEventListener('DOMContentLoaded', function() {
   // 图片初始化
   $('emblemImg').src = IMG_EMBLEM; $('stampEmblem').src = IMG_EMBLEM; $('backEmblem').src = IMG_EMBLEM;
   var CAMPI = [IMG_CAMPUS1, IMG_CAMPUS2, IMG_CAMPUS3, IMG_CAMPUS4, IMG_CAMPUS5, IMG_CAMPUS6, IMG_CAMPUS7, IMG_CAMPUS8, IMG_CAMPUS9, IMG_CAMPUS10, IMG_CAMPUS11, IMG_CAMPUS12];
+  var selectedPhoto = null; // null = 随机
+  var selectedFont = null; // null = 随机
+
+  // 构建照片选择器
+  (function buildPhotoGrid() {
+    var grid = $('photoGrid');
+    // "随机" 按钮
+    var rand = document.createElement('div');
+    rand.className = 'photo-thumb selected';
+    rand.style.display = 'flex'; rand.style.alignItems = 'center'; rand.style.justifyContent = 'center';
+    rand.style.fontSize = '11px'; rand.style.color = 'var(--vermillion)'; rand.style.fontWeight = '600';
+    rand.style.letterSpacing = '0.06em';
+    rand.textContent = '随机';
+    rand.addEventListener('click', function() {
+      grid.querySelectorAll('.photo-thumb').forEach(function(t) { t.classList.remove('selected'); });
+      rand.classList.add('selected');
+      selectedPhoto = null;
+      var p = pick(CAMPI); campusFront.src = p; campusBack.src = p;
+    });
+    grid.appendChild(rand);
+    // 12 张照片缩略图
+    CAMPI.forEach(function(src, i) {
+      var img = document.createElement('img');
+      img.className = 'photo-thumb';
+      img.src = src;
+      img.title = '照片' + (i+1);
+      img.addEventListener('click', function() {
+        grid.querySelectorAll('.photo-thumb').forEach(function(t) { t.classList.remove('selected'); });
+        img.classList.add('selected');
+        selectedPhoto = src;
+        campusFront.src = src; campusBack.src = src;
+      });
+      grid.appendChild(img);
+    });
+  })();
+
+  // 构建字体选择器
+  (function buildFontGrid() {
+    var grid = $('fontGrid');
+    // "随机" 按钮
+    var rand = document.createElement('button');
+    rand.className = 'font-btn selected';
+    rand.textContent = '随机';
+    rand.addEventListener('click', function() {
+      grid.querySelectorAll('.font-btn').forEach(function(b) { b.classList.remove('selected'); });
+      rand.classList.add('selected');
+      selectedFont = null;
+      generate();
+    });
+    grid.appendChild(rand);
+    // 6 款字体按钮
+    FONTS.forEach(function(f) {
+      var btn = document.createElement('button');
+      btn.className = 'font-btn';
+      btn.textContent = f.name;
+      btn.style.fontFamily = '"' + f.family + '", "Noto Serif SC"';
+      btn.style.fontSize = '15px';
+      btn.addEventListener('click', function() {
+        grid.querySelectorAll('.font-btn').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        selectedFont = f;
+        generate();
+      });
+      grid.appendChild(btn);
+    });
+  })();
   var curPhoto = pick(CAMPI);
   campusFront.src = curPhoto; campusBack.src = curPhoto;
 
@@ -680,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function() {
     charCount.textContent = cn+en;
   });
 
-  async function loadFont(f) { await document.fonts.load('16px '+f,'测'); }
+  async function loadFont(f, text) { await document.fonts.load('16px '+f, text); }
 
   function trace(family, text, sw, sh, opt) {
     opt = opt||{}; var ns='http://www.w3.org/2000/svg', paths=[];
@@ -753,15 +870,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var cn=(text.match(/[一-鿿㐀-䶿]/g)||[]).length, en=(text.match(/[a-zA-Z]/g)||[]).length;
     if (cn>4||en>10) { statusMsg.textContent='⚠ 汉字≤4 / 字母≤10'; statusMsg.style.color='var(--vermillion)'; return; }
 
-    var font=pick(FONTS);
-    var curPhoto = pick(CAMPI); campusFront.src = curPhoto; campusFront.style.display='block';
+    var font = selectedFont || pick(FONTS);
+    var curPhoto = selectedPhoto || pick(CAMPI); campusFront.src = curPhoto; campusFront.style.display='block';
     campusBack.src = curPhoto; campusBack.style.display='block';
 
     try {
       sigSvg.innerHTML=''; quoteSvg.innerHTML=''; backSigSvg.innerHTML='';
       var ph=$('placeholderText'); if (ph) ph.remove();
       statusMsg.textContent='加载字体 '+font.name+'…'; statusMsg.style.color='var(--ink-3)'; bindUI(false);
-      await loadFont(font.family);
+      await loadFont(font.family, text);
       statusMsg.textContent='生成笔画…';
 
       var np=trace(font.family,text,580,140,{color:'#000'});

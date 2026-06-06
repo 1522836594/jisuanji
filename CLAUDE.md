@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 文件 | 用途 |
 |------|------|
-| `signature-postcard.html` | 主文件：HTML 结构 + 内嵌 CSS + 内嵌 JS（约 800+ 行） |
+| `signature-postcard.html` | 主文件：HTML 结构 + 内嵌 CSS + 内嵌 JS（约 900+ 行） |
 | `images.js` | 图片变量的 base64 Data URI（`IMG_EMBLEM`, `IMG_CAMPUS1`～`IMG_CAMPUS12`），由本地图片文件编码生成 |
 | `1.png` | 校徽原始图片 |
 | `微信图片_*.jpg` | 校园照片原始图片（12 张） |
@@ -40,11 +40,21 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 
 全部手写 CSS，不依赖 Tailwind。CSS 变量（`:root`）定义纸色、墨色、朱砂红、阴影层级。自带约 24 个精简工具类（flex/gap/text/spacing）替代 Tailwind。
 
+## 控制台功能
+
+控制台提供以下交互：
+
+1. **名字输入** — 输入最多 4 个汉字或 10 个字母，留空则随机挑选预设名字
+2. **背景照片选择器** — 4 列缩略图网格，12 张校园照片 +「随机」按钮。点击缩略图即时切换正反面背景，选中状态为朱砂红边框
+3. **书法字体选择器** — 6 款中文字体按钮 +「随机」按钮，每款以自身字体展示名称。点击字体按钮即时重新生成签名
+4. **随机生成签名** — 使用当前选中的照片和字体生成签名（选中「随机」则随机选取），SVG 笔画逐帧动画模拟手写过程
+5. **下载 / 打印** — 签名完成后启用
+
 ## 关键逻辑
 
 签名生成的核心算法在 `trace()` 函数中：用 Canvas 离屏渲染文字，逐列扫描像素获取笔画的垂直区间，转换为 SVG `<path>` 元素，从而实现文字转矢量笔画路径的效果。
 
-`trace()` 生成的每个 `<path>` 初始 `opacity="0"`，真实透明度存储在 `data-opacity` 属性中。`animateWriting()` 函数用 `requestAnimationFrame` 按时间比例依次显示路径，模拟手写从左到右的笔顺效果。签名和名言同时书写，都完成后才启用下载/打印按钮。
+`loadFont(family, text)` 用用户名字文本触发字体加载，确保 Canvas trace 前所需字形全部就绪。`trace()` 生成的每个 `<path>` 初始 `opacity="0"`，真实透明度存储在 `data-opacity` 属性中。`animateWriting()` 函数用 `requestAnimationFrame` 按时间比例依次显示路径，模拟手写从左到右的笔顺效果。签名和名言同时书写，都完成后才启用下载/打印按钮。
 
 背面签名位于 card-layer 内部右下角（`align-self:flex-end; margin-right:40px`），半透明（opacity:0.65），无旋转。
 
