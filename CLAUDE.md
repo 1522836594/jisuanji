@@ -32,7 +32,7 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 
 ## 明信片规格
 
-尺寸为 A6 横版（148mm × 105mm，比例 640:454）。背景图使用 `object-fit: fill` 完整展示并铺满。正面照片全透，背面照片 50% 透明度作水印，书写横线 1.5px 粗。
+尺寸为 A6 横版（148mm × 105mm，比例 640:454）。背景图使用 `object-fit: fill` 完整展示并铺满。正面照片全透，背面照片 50% 透明度作水印。背面书写横线为纯黑色（#000）、1.5px 粗、共 6 条，间距 26px。背面整体上移 10mm（`translateY(-43px)`），校标下移 30px，「星河码栈」印章上移紧凑排列。
 
 下载使用 html2canvas，缩放倍率 3×，输出约 1920×1362 像素（~330 DPI A6），可满足高质量打印需求。
 
@@ -46,7 +46,7 @@ Start-Process "E:\AI\jisuanji\signature-postcard.html"
 
 `trace()` 生成的每个 `<path>` 初始 `opacity="0"`，真实透明度存储在 `data-opacity` 属性中。`animateWriting()` 函数用 `requestAnimationFrame` 按时间比例依次显示路径，模拟手写从左到右的笔顺效果。签名和名言同时书写，都完成后才启用下载/打印按钮。
 
-背面签名位于右下角（`bottom:30px; right:20px`），无旋转，半透明（opacity:0.65）。
+背面签名位于 card-layer 内部右下角（`align-self:flex-end; margin-right:40px`），半透明（opacity:0.65），无旋转。
 
 `images.js` 是纯数据文件。如果需要更换图片，修改本地图片文件后重新编码为 base64 替换该文件中的对应变量即可。
 

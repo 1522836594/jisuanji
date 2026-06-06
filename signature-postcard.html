@@ -453,8 +453,8 @@ body.loaded .card-section:nth-child(2) { animation: fadeUp 0.7s 0.35s var(--ease
 /* ---- 背面书写线 ---- */
 .write-line {
   width: 84%; height: 1.5px;
-  background: var(--ink-3);
-  opacity: 0.55; margin: 0 auto;
+  background: #000;
+  opacity: 1; margin: 0 auto;
 }
 
 /* ---- SVG 签名区域 ---- */
@@ -613,14 +613,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="card-section">
       <div class="card-label">背面</div>
       <div class="postcard-wrapper">
-        <div id="postcardBack" class="postcard flex flex-col items-center justify-center">
+        <div id="postcardBack" class="postcard flex flex-col items-center" style="position:relative;">
 
           <img id="campusBgBack" class="bg-back" src="" alt="" onerror="this.style.display='none'">
 
-          <svg id="backSigSvg" class="signature-svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet" style="position:absolute;bottom:30px;right:20px;width:180px;height:60px;z-index:4;opacity:.65;"></svg>
-
-          <div class="card-layer flex flex-col items-center justify-center w-full h-full" style="gap:12px;">
-            <img id="backEmblem" src="" alt="校徽" style="width:56px;height:56px;object-fit:contain;opacity:.75;filter:drop-shadow(0 2px 6px rgba(0,0,0,.08))">
+          <div class="card-layer flex flex-col items-center justify-center w-full h-full" style="gap:12px;transform:translateY(-43px);">
+            <img id="backEmblem" src="" alt="校徽" style="width:56px;height:56px;object-fit:contain;opacity:.75;filter:drop-shadow(0 2px 6px rgba(0,0,0,.08));margin-top:30px;">
 
             <div class="text-center">
               <span class="text-sm font-extrabold tracking-widest block" style="color:#333;opacity:.8;">博雅未来高中</span>
@@ -633,10 +631,12 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="write-line"></div><div class="write-line"></div>
               <div class="write-line"></div><div class="write-line"></div>
               <div class="write-line"></div><div class="write-line"></div>
-              <div class="write-line"></div><div class="write-line"></div>
             </div>
 
-            <div style="margin-top:6px;"><span class="class-stamp text-sm">星河码栈</span></div>
+            <!-- 背面签名：位于书写线下方右侧 -->
+            <svg id="backSigSvg" class="signature-svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet" style="width:160px;height:50px;align-self:flex-end;margin-right:40px;opacity:.65;"></svg>
+
+            <div style="margin-top:-50px;"><span class="class-stamp text-sm">星河码栈</span></div>
           </div>
         </div>
       </div>
